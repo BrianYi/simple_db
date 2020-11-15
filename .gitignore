@@ -39,7 +39,6 @@ ui_*.h
 *.vcproj.*.user
 *.vcxproj.user
 *.exe
-*.txt
 *.opensdf
 *.log
 *.VC.opendb
