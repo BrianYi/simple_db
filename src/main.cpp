@@ -18,28 +18,52 @@ vector<struct RowData> RandomRowData(size_t num, int64_t low, int64_t up)
     return rowdatas;
 }
 
-int main()
+void TestInsert(SimpleDB& simpledb, size_t num, int64_t low, int64_t up)
 {
-    SimpleDB simpledb;
-    simpledb.Initialize(1234);
-    vector<struct RowData> rowdatas = RandomRowData(10001, 0, 10);
+    printf("================ TestInsert ================\r\n");
+    vector<struct RowData> rowdatas = RandomRowData(num, low, up);
     for (size_t i = 0; i < rowdatas.size(); ++i)
     {
         simpledb.Insert(rowdatas[i]);
     }
-    vector<RowData*> rowdatasets = simpledb.SearchRange(0, 0, 10);
-    printf("%-2s | %-5s", "id", "value");
+    printf("Inserted %ld records.\r\n", rowdatas.size());
+    printf("\r\n");
+}
+
+void TestSearch(SimpleDB& simpledb, int attrid, int64_t low, int64_t up)
+{
+    printf("================ TestSearch ================\r\n");
+    vector<RowData*> rowdatasets = simpledb.SearchRange(0, 500, 600);
+    printf("%-2s | ", "id");
     for (size_t i = 0; i < MAX_ATTR_NUM; ++i)
-        printf("%-5s ", "value");
-    printf(" %-30s%-5s\r\n","DataFile", "Offset");
+        printf("%-5s", "val");
+    printf("%-30s%-5s\r\n","DataFile", "Offset");
     for (size_t i = 0; i < rowdatasets.size(); ++i)
     {
         printf("%02lu | ", i);
         for (size_t j = 0; j < MAX_ATTR_NUM; ++j)
-            printf("%-5ld ", rowdatasets[i]->data[j]);
+            printf("%-5ld", rowdatasets[i]->data[j]);
         printf("%-30s%-5ld", rowdatasets[i]->dataFileName.c_str(), rowdatasets[i]->offset);
         printf("\r\n");
         delete rowdatasets[i];
     }
-//    exit(EXIT_SUCCESS);
+    printf("Found %ld records.\r\n", rowdatasets.size());
+    printf("\r\n");
+}
+
+void TestDelete(SimpleDB& simpledb, int attrid, int64_t low, int64_t up)
+{
+    printf("================ TestDelete ================\r\n");
+    int64_t numDeleted = simpledb.DeleteRange(attrid, low, up);
+    printf("Deleted %ld records.\r\n", numDeleted);
+    printf("\r\n");
+}
+
+int main()
+{
+    SimpleDB simpledb;
+    simpledb.Initialize(1234);
+    TestInsert(simpledb, 10000, 0, 1000);
+    TestSearch(simpledb, 0, 500, 600);
+    TestDelete(simpledb, 0, 500, 600);
 }

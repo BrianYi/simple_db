@@ -23,9 +23,9 @@ const string DataFileDir = "data/";
 const string IndexFileExt = ".index";
 const string DataFileExt = ".data";
 
-const int MAX_ATTR_NUM = 100;
+const int MAX_ATTR_NUM = 10;
 const int MAX_INDEX_NUM = MAX_ATTR_NUM;
-const int DATA_FILE_MAX_ROW_NUM = 10000;    // 数据文件最多存放10000条数据
+const int DATA_FILE_MAX_ROW_NUM = 100;    // 数据文件最多存放10000条数据
 const int MAX_LEVEL = 16;
 //const int DATA_ENGINE_BUF_ROW_NUM = 10000; // 10000条记录写入一次文本
 //const int MAX_ROWS_NUM = 10;
